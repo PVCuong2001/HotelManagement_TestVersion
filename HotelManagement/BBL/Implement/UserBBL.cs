@@ -23,9 +23,11 @@ namespace HotelManagement.BBL
             var user = _iUserDAL.findbyid(1);
             UserVM userVM =_iMapper.Map<UserVM>(user);
             foreach(UserRole userRole in user.UserRoles){
-                if(userRole.UserolActiveflag==1){
+                if(userRole.UserolActiveflag==true){
                     Role role = userRole.UserolIdroleNavigation;
                     RoleVM roleVM = _iMapper.Map<RoleVM>(role);
+                    roleVM.IdUserRole = userRole.IdUserol;
+                    roleVM.UserRoleActiveFlag = userRole.UserolActiveflag;
                     roleVMlist.Add(roleVM);
                 }
             }
@@ -43,14 +45,16 @@ namespace HotelManagement.BBL
                 UserVM userVM =_iMapper.Map<UserVM>(user);
                 roleVMlist = new List<RoleVM>();
                 foreach(UserRole userRole in user.UserRoles){
-                    if(userRole.UserolActiveflag==1){
+                    if(userRole.UserolActiveflag==true){
                         Role role = userRole.UserolIdroleNavigation;
                         RoleVM roleVM = _iMapper.Map<RoleVM>(role);
                         menuVMlist = new List<MenuVM>();
                         foreach(Auth auth in userRole.UserolIdroleNavigation.Auths){
-                            Menu menu = auth.AuthIdmenuNavigation;
-                            MenuVM menuVM = _iMapper.Map<MenuVM>(menu);
-                            menuVMlist.Add(menuVM);
+                            if(auth.AuthActiveflag==true && auth.AuthPermission==true){
+                                Menu menu = auth.AuthIdmenuNavigation;
+                                MenuVM menuVM = _iMapper.Map<MenuVM>(menu);
+                                menuVMlist.Add(menuVM);
+                            }
                         }
                         roleVM.menuVMlist = menuVMlist;
                         roleVMlist.Add(roleVM);
@@ -65,9 +69,42 @@ namespace HotelManagement.BBL
 
         public void addUser(UserVM userVM){
             User user =new User();
+            int user_id = _iUserDAL.getnextid();
+            List<UserRole>userRolelist = new List<UserRole>();
             _iMapper.Map(userVM,user);
-            string json=JsonConvert.SerializeObject(user,Formatting.Indented);
-            Console.WriteLine(json); 
+            
+            foreach(RoleVM roleVM in userVM.roleVMlist){
+                UserRole userRole =new UserRole();
+                userRole.UserolIdrole = roleVM.IdRole;
+                userRole.UserolIduser = user_id;
+                userRole.UserolActiveflag=true;
+                userRolelist.Add(userRole);
+            }
+            user.UserRoles = userRolelist;
+            _iUserDAL.addUser(user);
+        }
+
+        public void editUser(UserVM userVM){
+
+            User user =new User();
+            List<UserRole>userRolelist = new List<UserRole>();
+            _iMapper.Map(userVM,user);
+            
+            foreach(RoleVM roleVM in userVM.roleVMlist){
+                UserRole userRole =new UserRole();
+                userRole.IdUserol = roleVM.IdUserRole;
+                userRole.UserolIdrole = roleVM.IdRole;
+                userRole.UserolIduser = user.IdUser;
+                userRole.UserolActiveflag = roleVM.UserRoleActiveFlag;
+                userRolelist.Add(userRole);
+            }
+            user.UserRoles = userRolelist;
+            _iUserDAL.editUser(user);
+        }
+
+        public void deleteUser(int idUser)
+        {
+            _iUserDAL.deleteUser(idUser);
         }
     }
 }

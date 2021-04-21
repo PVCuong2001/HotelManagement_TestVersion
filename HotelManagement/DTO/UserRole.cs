@@ -19,7 +19,7 @@ namespace HotelManagement.DTO
         [Column("userol_idrole")]
         public int UserolIdrole { get; set; }
         [Column("userol_activeflag")]
-        public int UserolActiveflag { get; set; }
+        public bool UserolActiveflag { get; set; }
 
         [ForeignKey(nameof(UserolIdrole))]
         [InverseProperty(nameof(Role.UserRoles))]

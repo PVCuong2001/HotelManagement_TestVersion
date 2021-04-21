@@ -11,6 +11,7 @@ using HotelManagement.DAL.Interface;
 using HotelManagement.BBL;
 using HotelManagement.ViewModel;
 using Newtonsoft.Json;
+using HotelManagement.BBL.Interface;
 
 namespace HotelManagement.Controllers
 {
@@ -18,13 +19,26 @@ namespace HotelManagement.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserBBL _iUserBBL;
+        private readonly IRoomTypeBBL _iRoomTypeBBL;
 
-        public HomeController(ILogger<HomeController> logger ,IUserBBL iUserBBL)
+        public HomeController(ILogger<HomeController> logger ,IUserBBL iUserBBL,IRoomTypeBBL iRoomTypeBBL)
         {
             _logger = logger;
             _iUserBBL = iUserBBL;
+            _iRoomTypeBBL = iRoomTypeBBL;
             // getUserDetail();
-            searchUser();
+            // searchUser();
+            // editUser();
+            // deleteUser();
+            getAllRoomType();
+        }
+
+
+        public void getAllRoomType(){
+            List<RoomTypeVM> listVM = _iRoomTypeBBL.getAll();
+
+            string json=JsonConvert.SerializeObject(listVM,Formatting.Indented);
+            Console.WriteLine(json); 
         }
 
         public void getUserDetail(){
@@ -39,7 +53,36 @@ namespace HotelManagement.Controllers
             Console.WriteLine(json); 
         }
         public void addUser(){
-            
+            UserVM userVM = new UserVM();
+            userVM.UserName="vippro";
+            userVM.UserCode="CCCC";
+            userVM.UserGender=true;
+            userVM.UserGmail="@gmail.com";
+            userVM.UserPhone="09213";
+            userVM.UserPhoto=1;
+            userVM.UserActiveflag=true;
+
+            RoleVM roleVM = new RoleVM();
+            roleVM.IdRole=3;
+            RoleVM roleVM1 = new RoleVM();
+            roleVM1.IdRole =2;
+
+            List<RoleVM>roleVMs = new List<RoleVM>();
+            roleVMs.Add(roleVM);
+            roleVMs.Add(roleVM1);
+
+            userVM.roleVMlist = roleVMs;            
+            _iUserBBL.addUser(userVM);
+        }
+
+        public void editUser(){
+            UserVM userVM = _iUserBBL.getUserByID(1);
+            userVM.roleVMlist[0].IdRole=4;
+            userVM.roleVMlist[0].UserRoleActiveFlag=false;
+            _iUserBBL.editUser(userVM);
+        }
+        public void deleteUser(){
+            _iUserBBL.deleteUser(3);
         }
         public IActionResult Index()
         {

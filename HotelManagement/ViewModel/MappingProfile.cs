@@ -10,6 +10,7 @@ namespace HotelManagement.ViewModel
             CreateMap<User,UserVM>().ReverseMap();
             CreateMap<Role,RoleVM>().ReverseMap();
             CreateMap<Menu,MenuVM>().ReverseMap();
+            CreateMap<RoomType,RoomTypeVM>().ReverseMap();
             // .ForMember(dest =>dest.IdRoomtype ,opt =>opt.MapFrom(src => src.ImgroomImgstoNavigation.ImgroomImgstoNavigation.IdRoomtype) ) 
         
         }   

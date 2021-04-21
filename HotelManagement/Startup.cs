@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelManagement.BBL;
+using HotelManagement.BBL.Implement;
+using HotelManagement.BBL.Interface;
 using HotelManagement.DAL;
+using HotelManagement.DAL.Impl;
 using HotelManagement.DAL.Interface;
 using HotelManagement.DTO;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +37,8 @@ namespace HotelManagement
             ));
             services.AddTransient<IUserDAL,UserDAL>();
             services.AddTransient<IUserBBL,UserBBL>();
+            services.AddTransient<IRoomtypeDAL,RoomtypeDAL>();
+            services.AddTransient<IRoomTypeBBL,RoomTypeBBL>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
         }

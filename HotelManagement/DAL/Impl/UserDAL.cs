@@ -6,6 +6,7 @@ using HotelManagement.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using HotelManagement.ViewModel;
+using Newtonsoft.Json;
 
 namespace HotelManagement.DAL
 {
@@ -17,6 +18,7 @@ namespace HotelManagement.DAL
         }
         public User findbyid(int id_user){
             var user = _appDbContext.Users.Where(x => x.IdUser ==id_user).Include(x => x.UserRoles).ThenInclude(y =>y.UserolIdroleNavigation).ThenInclude(z =>z.Auths).ThenInclude(t =>t.AuthIdmenuNavigation).SingleOrDefault();
+            if(user!=null) _appDbContext.Entry(user).State = EntityState.Detached;
             return user;
         }
 
@@ -36,8 +38,40 @@ namespace HotelManagement.DAL
             return userlist;
         }
 
-        public void addUser(UserVM userVM){
-            
+        public void addUser(User user){
+            _appDbContext.Users.Add(user);
+            _appDbContext.SaveChanges();
         }
+
+        public void editUser(User user)
+        {
+            
+            string json=JsonConvert.SerializeObject(user,Formatting.Indented);
+            Console.WriteLine(json); 
+            _appDbContext.Entry(user).State = EntityState.Modified;
+            _appDbContext.Users.Update(user);
+           _appDbContext.SaveChanges();
+        }
+
+        public void deleteUser(int idUser){
+            User user = _appDbContext.Users.Find(idUser);
+            _appDbContext.Remove(user);
+            _appDbContext.SaveChanges();
+        }
+
+        public int getnextid()
+        {
+            int id;
+            using (var command = _appDbContext.Database.GetDbConnection().CreateCommand()){
+                command.CommandText = "SELECT IDENT_CURRENT('user')+1";
+                _appDbContext.Database.OpenConnection();
+                using (var result = command.ExecuteReader()){
+                    result.Read();
+                    id = Decimal.ToInt32((decimal)result[0]);  
+                }
+            }
+            return id;
+        }
+
     }
 }

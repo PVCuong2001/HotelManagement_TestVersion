@@ -15,7 +15,7 @@ namespace HotelManagement.DTO
         [Column("id_imgsto")]
         public int IdImgsto { get; set; }
         [Column("imgsto_url")]
-        public int ImgstoUrl { get; set; }
+        public string ImgstoUrl { get; set; }
         [Column("imgsto_description")]
         [StringLength(200)]
         public string ImgstoDescription { get; set; }
