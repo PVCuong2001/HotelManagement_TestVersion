@@ -20,13 +20,14 @@ namespace HotelManagement.BBL.Implement
         public List<RoomTypeVM> getAll()
         {
             var result = _iRoomTypeDAL.getAll();
-            Console.WriteLine(result[0].ImgStorages.Count); 
+            List<string>imgUrlList = new List<string>();
             List<RoomTypeVM> listVM =new List<RoomTypeVM>();
             foreach(RoomType roomType in _iRoomTypeDAL.getAll()){
                 RoomTypeVM roomTypeVM = _iMapper.Map<RoomTypeVM>(roomType);
                 foreach(ImgStorage imgStorage in roomType.ImgStorages){
-                    roomTypeVM.ListImgURL.Add(imgStorage.ImgstoUrl);
+                    imgUrlList.Add(imgStorage.ImgstoUrl);
                 }
+                roomTypeVM.ListImgURL = imgUrlList;
                 listVM.Add(roomTypeVM);
             }
             return listVM;
@@ -34,7 +35,7 @@ namespace HotelManagement.BBL.Implement
 
         public void addRoomType(RoomTypeVM roomTypeVM)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void editRoomType(RoomTypeVM roomTypeVM)
