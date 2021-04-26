@@ -9,5 +9,6 @@ namespace HotelManagement.BBL.Interface
          void addRoomType(RoomTypeVM roomTypeVM);
          void editRoomType(RoomTypeVM roomTypeVM);
          void deleteRoomType(int idRoomType);
+         RoomTypeVM findbyid(int id);
     }
 }

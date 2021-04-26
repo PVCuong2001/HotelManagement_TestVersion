@@ -120,7 +120,6 @@ namespace HotelManagement.DTO
                 entity.HasKey(e => e.IdImgsto)
                     .HasName("Pk_ImgStorage_id_imgsto");
 
-                entity.Property(e => e.ImgstoDescription).IsUnicode(false);
 
                 entity.HasOne(d => d.ImgstoIdrootypNavigation)
                     .WithMany(p => p.ImgStorages)

@@ -30,7 +30,9 @@ namespace HotelManagement.Controllers
             // searchUser();
             // editUser();
             // deleteUser();
-            getAllRoomType();
+            // getAllRoomType();
+            // addRoomType();
+            editRoomType();
         }
 
 
@@ -39,6 +41,29 @@ namespace HotelManagement.Controllers
 
             string json=JsonConvert.SerializeObject(listVM,Formatting.Indented);
             Console.WriteLine(json); 
+        }
+        public void editRoomType(){
+            RoomTypeVM roomTypeVM = _iRoomTypeBBL.findbyid(1);
+            string json=JsonConvert.SerializeObject(roomTypeVM,Formatting.Indented);
+            Console.WriteLine(json);
+            // roomTypeVM.MapImgUrl[1] = "hello";
+            //  roomTypeVM.MapImgUrl.Add(8,"justtest");
+            // roomTypeVM.MapImgUrl[7] ="";
+            roomTypeVM.MapImgUrl[8]="sasda";
+            _iRoomTypeBBL.editRoomType(roomTypeVM);
+        }
+
+        public void addRoomType(){
+            RoomTypeVM roomTypeVM = new RoomTypeVM();
+            roomTypeVM.RotyName = "provipRoom";
+            roomTypeVM.RotyCapacity=2;
+            roomTypeVM.RotyCurrentprice=100;
+            roomTypeVM.RotyDescription="qua tot";
+            List<string>imglist = new List<string>();
+            imglist.Add("/home/cuong/pro");
+            imglist.Add("/home/cuong/vip");
+            roomTypeVM.ListImgURL = imglist;
+            _iRoomTypeBBL.addRoomType(roomTypeVM);
         }
 
         public void getUserDetail(){
