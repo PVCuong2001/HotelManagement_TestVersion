@@ -17,10 +17,10 @@ namespace HotelManagement.DAL.Impl
             throw new System.NotImplementedException();
         }
 
-        public List<Room> getall(int page, int rows ,string orderby)
+        public List<Room> getall(int start, int length ,string orderby)
         {
 
-            var result = _appDbContext.Rooms.Include(x =>x.RoomIdroomtypeNavigation).Skip(rows*page).Take(rows).ToList();
+            var result = _appDbContext.Rooms.Include(x =>x.RoomIdroomtypeNavigation).Skip(start).Take(length).ToList();
             return result;                
         }
     }

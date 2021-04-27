@@ -20,22 +20,29 @@ namespace HotelManagement.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUserBBL _iUserBBL;
         private readonly IRoomTypeBBL _iRoomTypeBBL;
+        private readonly IRoomBLL _iRoomBLL;
 
-        public HomeController(ILogger<HomeController> logger ,IUserBBL iUserBBL,IRoomTypeBBL iRoomTypeBBL)
+        public HomeController(ILogger<HomeController> logger ,IUserBBL iUserBBL,IRoomTypeBBL iRoomTypeBBL,IRoomBLL iRoomBLL)
         {
             _logger = logger;
             _iUserBBL = iUserBBL;
             _iRoomTypeBBL = iRoomTypeBBL;
+            _iRoomBLL = iRoomBLL;
             // getUserDetail();
             // searchUser();
             // editUser();
             // deleteUser();
             // getAllRoomType();
             // addRoomType();
-            editRoomType();
+            // editRoomType();
+            getAllRoom();
         }
 
-
+        public void getAllRoom(){
+            List<RoomVM>listRoomVM = _iRoomBLL.getAll(1,2,"hello");
+            string json=JsonConvert.SerializeObject(listRoomVM,Formatting.Indented);
+            Console.WriteLine(json); 
+        }
         public void getAllRoomType(){
             List<RoomTypeVM> listVM = _iRoomTypeBBL.getAll();
 
