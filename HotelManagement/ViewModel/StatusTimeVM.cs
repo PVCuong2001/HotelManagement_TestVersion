@@ -14,6 +14,6 @@ namespace HotelManagement.ViewModel
         public DateTime StatimFromdate { get; set; }
         public DateTime StatimTodate { get; set; }
         public StatusVM statusVM { get; set; }
-        public int check{get;set}
+        public int check{get;set;}
     }
 }

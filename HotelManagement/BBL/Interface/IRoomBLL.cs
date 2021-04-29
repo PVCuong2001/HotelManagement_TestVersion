@@ -7,6 +7,6 @@ namespace HotelManagement.BBL.Interface
     {
     
         List<RoomVM>getAll(int pages,int rows ,string orderby);
-        void editRoom(RoomVM roomVM); 
+        void editRoom(RoomVM roomVM , List<int>listdel); 
     }
 }

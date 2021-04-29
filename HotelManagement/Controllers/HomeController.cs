@@ -36,12 +36,24 @@ namespace HotelManagement.Controllers
             // addRoomType();
             // editRoomType();
             // getAllRoom();
-            editRoom() ;           
+            editRoom() ;
+
         }
 
         public void editRoom(){
             RoomVM roomVM = _iRoomBLL.getAll(1,2,"hello")[0];
-            
+            // StatusVM statusVM = new StatusVM();
+            // statusVM.IdStatus =1;
+            // StatusTimeVM statusTimeVM = new StatusTimeVM();
+            // statusTimeVM.StatimFromdate = DateTime.Now;
+            // statusTimeVM.StatimTodate = Convert.ToDateTime("5/5/2021");
+            // statusTimeVM.statusVM = statusVM;
+            // roomVM.ListStatusTime.Add(statusTimeVM);
+            List<int>listdel = new List<int>();
+            listdel.Add(3);
+            _iRoomBLL.editRoom(roomVM,listdel);            
+
+
         }
         public void getAllRoom(){
             List<RoomVM>listRoomVM = _iRoomBLL.getAll(1,2,"hello");

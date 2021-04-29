@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using HotelManagement.BBL.Interface;
 using HotelManagement.DAL.Interface;
@@ -16,20 +18,27 @@ namespace HotelManagement.BBL.Implement
             _iMapper = iMapper;
         }
 
-        public void editRoom(RoomVM roomVM)
+        public void editRoom(RoomVM roomVM , List<int>listdel)
         {
             Room room = new Room();
             _iMapper.Map(roomVM,room);
-            List<int>listdel = new List<int>();
+            room.RoomIdroomtype = roomVM.MapRoomtype.First().Key;
             foreach(StatusTimeVM statusTimeVM in roomVM.ListStatusTime){
-                if(statusTimeVM.check==-1) listdel.Add(statusTimeVM.IdStatim);
                 StatusTime statusTime = new StatusTime();
                 _iMapper.Map(statusTimeVM , statusTime);
-                statusTime.IdStatim = statusTimeVM.statusVM.IdStatus;
+                // Status status = new Status();
+                // _iMapper.Map(statusTimeVM.statusVM,status);
+                // statusTime.StatimIdstatusNavigation = status;
+                statusTime.StatimIdstatus = statusTimeVM.statusVM.IdStatus;
+                statusTime.StatimIdroom = room.IdRoom;
                 room.StatusTimes.Add(statusTime);
             }
-            _iRoomDAL.update(room);
-            _iRoomDAL.delete(listdel);
+            try{
+                _iRoomDAL.update(room);
+                _iRoomDAL.delete(listdel);
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+            }
         }
 
         // public void editRoomType(RoomTypeVM roomTypeVM)
