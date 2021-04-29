@@ -7,5 +7,7 @@ namespace HotelManagement.DAL.Interface
     {
          List<Room>getall(int page ,int rows ,string orderby);
          Room findbyid();
+         void update(Room room);
+         void delete(List<int>listdel);
     }
 }

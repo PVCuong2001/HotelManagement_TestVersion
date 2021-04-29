@@ -55,9 +55,6 @@ namespace HotelManagement.BBL.Implement
         {
             RoomType roomType = new RoomType();
             _iMapper.Map(roomTypeVM,roomType);
-            // foreach(string imgurl in roomTypeVM.ListImgURL){
-            //     ImgStorage imgStorage = new ImgStorage();
-            // }
             List<int> img_del = new List<int>();
             foreach(KeyValuePair<int, string> kvp in roomTypeVM.MapImgUrl){
                 if(kvp.Value ==""){

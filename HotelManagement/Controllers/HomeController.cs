@@ -35,9 +35,14 @@ namespace HotelManagement.Controllers
             // getAllRoomType();
             // addRoomType();
             // editRoomType();
-            getAllRoom();
+            // getAllRoom();
+            editRoom() ;           
         }
 
+        public void editRoom(){
+            RoomVM roomVM = _iRoomBLL.getAll(1,2,"hello")[0];
+            
+        }
         public void getAllRoom(){
             List<RoomVM>listRoomVM = _iRoomBLL.getAll(1,2,"hello");
             string json=JsonConvert.SerializeObject(listRoomVM,Formatting.Indented);

@@ -6,6 +6,7 @@ namespace HotelManagement.BBL.Interface
     public interface IRoomBLL
     {
     
-        List<RoomVM>getAll(int pages,int rows ,string orderby); 
+        List<RoomVM>getAll(int pages,int rows ,string orderby);
+        void editRoom(RoomVM roomVM); 
     }
 }
