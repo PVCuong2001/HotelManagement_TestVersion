@@ -42,6 +42,7 @@ namespace HotelManagement
             services.AddTransient<IRoomBLL,RoomBLL>();
             services.AddTransient<IRoomDAL,RoomDAL>();
             services.AddTransient<IImgStorageDAL,ImgStorageDAL>();
+            services.AddTransient<IStatusTImeDAL,StatusTimeDAL>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
         }

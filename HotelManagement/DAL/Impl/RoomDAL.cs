@@ -17,14 +17,20 @@ namespace HotelManagement.DAL.Impl
 
         public void update(Room room)
         {
+            foreach (var entityEntry in _appDbContext.ChangeTracker.Entries())
+{
+    Console.WriteLine(entityEntry);
+}
             try{
                 bool tracking= _appDbContext.ChangeTracker.Entries<Room>().Any(x => x.Entity.IdRoom == room.IdRoom);
                 if(tracking) throw new InvalidOperationException("Error while updating room");
+                else{
+                    _appDbContext.Rooms.Update(room);
+                    _appDbContext.SaveChanges();
+                }
                 // foreach(StatusTime statusTime in room.StatusTimes){
                 //     _appDbContext.Entry(statusTime.StatimIdstatusNavigation).State = EntityState.Detached;
                 // }
-                    _appDbContext.Rooms.Update(room);
-                    _appDbContext.SaveChanges();
             }catch(Exception e){
                 throw ;
             }

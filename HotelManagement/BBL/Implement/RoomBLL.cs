@@ -13,9 +13,11 @@ namespace HotelManagement.BBL.Implement
     {
         private IRoomDAL _iRoomDAL;
         private IMapper _iMapper;
-        public RoomBLL(IRoomDAL iRoomDAL , IMapper iMapper){
+        private IStatusTImeDAL _iStatusTimeDAL;
+        public RoomBLL(IRoomDAL iRoomDAL , IMapper iMapper , IStatusTImeDAL iStatusTimeDAL){
             _iRoomDAL = iRoomDAL;
             _iMapper = iMapper;
+            _iStatusTimeDAL = iStatusTimeDAL;
         }
 
         public void editRoom(RoomVM roomVM , List<int>listdel)
@@ -35,7 +37,7 @@ namespace HotelManagement.BBL.Implement
             }
             try{
                 _iRoomDAL.update(room);
-                _iRoomDAL.delete(listdel);
+                if(listdel.Count !=0) _iStatusTimeDAL.delete(listdel);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
             }
