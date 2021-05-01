@@ -25,17 +25,14 @@ namespace HotelManagement.DAL.Impl
                 bool tracking= _appDbContext.ChangeTracker.Entries<Room>().Any(x => x.Entity.IdRoom == room.IdRoom);
                 if(tracking) throw new InvalidOperationException("Error while updating room");
                 else{
-                  //  _appDbContext.transaction = (Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerTransaction)_appDbContext.Database.BeginTransaction();
-                    //_appDbContext.transaction.CreateSavepoint("Before update StatusTime");
-                    // _appDbContext.Entry(room.StatusTimes).State = EntityState.Detached;
-                    _appDbContext.Entry(room).State = EntityState.Modified; 
+                //    _appDbContext.transaction = (Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerTransaction)_appDbContext.Database.BeginTransaction();
+                //     _appDbContext.transaction.CreateSavepoint("Before update StatusTime");
+                //     _appDbContext.Entry(room.StatusTimes).State = EntityState.Detached;
                     _appDbContext.Rooms.Update(room);
                     _appDbContext.SaveChanges();
+                     _appDbContext.Entry(room).State = EntityState.Detached;
                 //    _appDbContext.transaction.Commit();
                 }
-                // foreach(StatusTime statusTime in room.StatusTimes){
-                //     _appDbContext.Entry(statusTime.StatimIdstatusNavigation).State = EntityState.Detached;
-                // }
             }catch(Exception e){
                 throw ;
             }

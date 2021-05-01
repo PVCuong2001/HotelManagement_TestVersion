@@ -14,6 +14,18 @@ namespace HotelManagement.DAL.Impl
             public StatusTimeDAL(AppDbContext appDbContext){
                 _appDbContext = appDbContext;
             }
+
+        public void add(List<StatusTime> listadd)
+        {
+            try{
+                _appDbContext.StatusTimes.AddRange(listadd);
+                _appDbContext.SaveChanges();
+            }catch(Exception e){
+                throw ;
+            }
+
+        }
+
         public void delete(List<int> listdel)
         {
             List<StatusTime>list = new List<StatusTime>();
@@ -26,14 +38,21 @@ namespace HotelManagement.DAL.Impl
             _appDbContext.SaveChanges();
         }
 
-        public void edit(List<StatusTime>listedit){
+        public void update(List<StatusTime>listedit){
+//             foreach (var entityEntry in _appDbContext.ChangeTracker.Entries())
+// {
+//     Console.WriteLine(entityEntry);
+// }
+_appDbContext.ChangeTracker.DetectChanges();
+Console.WriteLine(_appDbContext.ChangeTracker.DebugView.LongView);
         //   var transaction = _appDbContext.Database.UseTransaction(_appDbContext.transaction.GetDbTransaction());
             try{
                 _appDbContext.StatusTimes.UpdateRange(listedit);
                 _appDbContext.SaveChanges();
-                _appDbContext.transaction.Commit();
+                // _appDbContext.transaction.Commit();
             }catch(Exception e){
-                _appDbContext.transaction.RollbackToSavepoint("Before update StatusTime");
+                throw ;
+                // _appDbContext.transaction.RollbackToSavepoint("Before update StatusTime");
             }
         }
     }

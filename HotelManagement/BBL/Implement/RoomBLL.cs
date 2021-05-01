@@ -49,7 +49,8 @@ namespace HotelManagement.BBL.Implement
             Room room = new Room();
             _iMapper.Map(roomVM,room);
             room.RoomIdroomtype = roomVM.MapRoomtype.First().Key;
-            List<StatusTime>list = new List<StatusTime>();
+            List<StatusTime>listedit = new List<StatusTime>();
+            List<StatusTime>listadd = new List<StatusTime>();
             foreach(StatusTimeVM statusTimeVM in roomVM.ListStatusTime){
                 StatusTime statusTime = new StatusTime();
                 _iMapper.Map(statusTimeVM , statusTime);
@@ -58,12 +59,14 @@ namespace HotelManagement.BBL.Implement
                 // statusTime.StatimIdstatusNavigation = status;
                 statusTime.StatimIdstatus = statusTimeVM.statusVM.IdStatus;
                 statusTime.StatimIdroom = room.IdRoom;
-                list.Add(statusTime);
+                if(statusTime.IdStatim !=0) listedit.Add(statusTime);
+                else listadd.Add(statusTime);
             }
             try{
                 _iRoomDAL.update(room);
-                // _iStatusTimeDAL.edit(list);
-                // if(listdel.Count !=0) _iStatusTimeDAL.delete(listdel);
+                 if(listedit.Count!=0) _iStatusTimeDAL.update(listedit);
+                 if(listadd.Count!=0) _iStatusTimeDAL.add(listadd);
+                 if(listdel.Count !=0) _iStatusTimeDAL.delete(listdel);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
             }
