@@ -13,6 +13,7 @@ namespace HotelManagement.BBL.Implement
     {
         private IRoomDAL _iRoomDAL;
         private IMapper _iMapper;
+        
         private IStatusTImeDAL _iStatusTimeDAL;
         public RoomBLL(IRoomDAL iRoomDAL , IMapper iMapper , IStatusTImeDAL iStatusTimeDAL){
             _iRoomDAL = iRoomDAL;
@@ -20,7 +21,7 @@ namespace HotelManagement.BBL.Implement
             _iStatusTimeDAL = iStatusTimeDAL;
         }
 
-        public void editRoom(RoomVM roomVM , List<int>listdel)
+        public void editRoom1(RoomVM roomVM , List<int>listdel)
         {
             Room room = new Room();
             _iMapper.Map(roomVM,room);
@@ -43,6 +44,30 @@ namespace HotelManagement.BBL.Implement
             }
         }
 
+        
+        public void editRoom(RoomVM roomVM , List<int>listdel){
+            Room room = new Room();
+            _iMapper.Map(roomVM,room);
+            room.RoomIdroomtype = roomVM.MapRoomtype.First().Key;
+            List<StatusTime>list = new List<StatusTime>();
+            foreach(StatusTimeVM statusTimeVM in roomVM.ListStatusTime){
+                StatusTime statusTime = new StatusTime();
+                _iMapper.Map(statusTimeVM , statusTime);
+                // Status status = new Status();
+                // _iMapper.Map(statusTimeVM.statusVM,status);
+                // statusTime.StatimIdstatusNavigation = status;
+                statusTime.StatimIdstatus = statusTimeVM.statusVM.IdStatus;
+                statusTime.StatimIdroom = room.IdRoom;
+                list.Add(statusTime);
+            }
+            try{
+                _iRoomDAL.update(room);
+                // _iStatusTimeDAL.edit(list);
+                // if(listdel.Count !=0) _iStatusTimeDAL.delete(listdel);
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+            }
+        }
         // public void editRoomType(RoomTypeVM roomTypeVM)
         // {
         //     RoomType roomType = new RoomType();

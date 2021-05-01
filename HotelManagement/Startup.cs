@@ -34,15 +34,16 @@ namespace HotelManagement
              services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")
                     // ,o =>o.MigrationsAssembly("Services")
-            ));
+            ).EnableSensitiveDataLogging()
+            );
             services.AddTransient<IUserDAL,UserDAL>();
             services.AddTransient<IUserBBL,UserBBL>();
             services.AddTransient<IRoomtypeDAL,RoomtypeDAL>();
             services.AddTransient<IRoomTypeBBL,RoomTypeBBL>();
             services.AddTransient<IRoomBLL,RoomBLL>();
-            services.AddTransient<IRoomDAL,RoomDAL>();
+            services.AddScoped<IRoomDAL,RoomDAL>();
             services.AddTransient<IImgStorageDAL,ImgStorageDAL>();
-            services.AddTransient<IStatusTImeDAL,StatusTimeDAL>();
+            services.AddScoped<IStatusTImeDAL,StatusTimeDAL>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
         }

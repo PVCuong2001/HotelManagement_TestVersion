@@ -35,13 +35,14 @@ namespace HotelManagement.Controllers
             // getAllRoomType();
             // addRoomType();
             // editRoomType();
-            // getAllRoom();
+           //  getAllRoom();
             editRoom() ;
 
         }
 
         public void editRoom(){
             RoomVM roomVM = _iRoomBLL.getAll(1,2,"hello")[0];
+            roomVM.RoomName = "adasd";
             StatusVM statusVM = new StatusVM();
             statusVM.IdStatus =1;
             StatusTimeVM statusTimeVM = new StatusTimeVM();

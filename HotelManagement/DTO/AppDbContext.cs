@@ -1,6 +1,8 @@
 ﻿using System;
+// using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 
 #nullable disable
 
@@ -16,7 +18,7 @@ namespace HotelManagement.DTO
             : base(options)
         {
         }
-
+        public SqlServerTransaction transaction { get; set; }
         public virtual DbSet<Auth> Auths { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<BookingDetail> BookingDetails { get; set; }
